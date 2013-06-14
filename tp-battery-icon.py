@@ -414,8 +414,7 @@ class TrayIcon():
             if 1 <= thresh <= 100:
                 ctrl.set_start_threshold(thresh)
         except ValueError:
-            # TODO message dialog
-            print("Invalid value in dialog!")
+            self.show_error_dialog("Error", "Invalid value in dialog!\nMust be a Number between 1 and 100")
 
     def set_threshold_stop(self, widget):
         try:
@@ -423,8 +422,7 @@ class TrayIcon():
             if 1 <= thresh <= 100:
                 ctrl.set_stop_threshold(thresh)
         except ValueError:
-            # TODO message dialog
-            print("Invalid value in dialog!")
+            self.show_error_dialog("Error", "Invalid value in dialog!\nMust be a Number between 1 and 100")
 
     def respond(self, entry, dialog, response):
         dialog.response(response)
@@ -493,6 +491,25 @@ class TrayIcon():
 
     def show_detail_dialog(self, widget):
         print("hui")
+
+    def show_error_dialog(self, title, msg_error):
+        error_dialog = Gtk.Dialog(title, None, 0, (Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        error_dialog.set_icon_from_file(self.iconname)
+        error_label = Gtk.Label()
+
+        error_hbox = Gtk.HBox()
+        error_dialog.vbox.pack_start(error_hbox, True, True, 0)
+        
+        error_label.set_markup(msg_error)
+        error_label.set_justify(Gtk.Justification.LEFT)
+        error_label.set_padding(10, 10)
+
+        error_hbox.add(error_label)
+
+        error_dialog.show_all()
+
+        error_dialog.run()
+        error_dialog.destroy()
 
     def show_about_dialog(self, widget):
         about_dialog = Gtk.AboutDialog()
